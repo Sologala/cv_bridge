@@ -20,23 +20,22 @@ set(CV_BRIDGE_SRC
 )
 
 include_directories(
-  # ./include/
-  ${catkin_INCLUDE_DIRS}
-  ${Boost_INCLUDE_DIRS}
-  ${OpenCV_INCLUDE_DIRS}
+
 )
 
 add_library(${PROJECT_NAME} ${CV_BRIDGE_SRC})
 
 target_include_directories( ${PROJECT_NAME} PUBLIC
 ./include/
+${catkin_INCLUDE_DIRS}
+${OpenCV_INCLUDE_DIRS}
+${Boost_INCLUDE_DIRS}
 )
 
-
-target_link_libraries(${PROJECT_NAME} PRIVATE
-  ${OpenCV_LIBRARIES}
+target_link_libraries(${PROJECT_NAME} 
   ${catkin_LIBRARIES}
-  ${Boost_LIBRARY_DIRS}
+  ${OpenCV_LIBS}
+  ${Boost_LIBRARIES}
 )
 
 add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
