@@ -13,10 +13,42 @@ catkin_package(
   CFG_EXTRAS cv_bridge-extras.cmake
 )
 
-include_directories(include ${Boost_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
-link_directories(${Boost_LIBRARY_DIRS})
 
-add_subdirectory(src)
+set(CV_BRIDGE_SRC
+  src/cv_bridge.cpp 
+  src/rgb_colors.cpp
+)
+
+include_directories(
+  ./include/
+  ${catkin_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
+)
+
+add_library(${PROJECT_NAME} ${CV_BRIDGE_SRC})
+
+target_link_directories(
+  ${PROJECT_NAME} PUBLIC
+  ./include
+)
+
+
+target_link_libraries(${PROJECT_NAME}
+  ${OpenCV_LIBRARIES}
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARY_DIRS}
+)
+
+add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
+
+
+install(TARGETS ${PROJECT_NAME}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
+)
+
 
 install(
   DIRECTORY include/${PROJECT_NAME}/
